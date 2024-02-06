@@ -3,6 +3,8 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<RootNamespace>PodNet.Analyzers</RootNamespace>
+		<Description>Shared sources, configuration and resources for PodNet Roslyn analyzers, including source generators. This package is mainly to be used indirectly by other PodNet analyzer packages. Source is avaialable for reference.</Description>
+		<PackageTags>PodNet, analyzers, Roslyn, code generators, code analysis, C#, awesome</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -17,7 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<TfmSpecificPackageFile Include="$(OutputPath)**.pdb" PackagePath="lib/netstandard2.0" />
+		<TfmSpecificPackageFile Include="$(OutputPath)*.pdb" PackagePath="lib/netstandard2.0" />
 	</ItemGroup>
 	
 </Project>

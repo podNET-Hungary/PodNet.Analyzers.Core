@@ -13,8 +13,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<TfmSpecificPackageFile Condition="'$(PodNetIncludeAnalyzer)' == 'true'" Include="$(OutputPath)**.dll" PackagePath="analyzers/dotnet/cs" />
-		<TfmSpecificPackageFile Condition="'$(PodNetIncludeAnalyzerSymbols)' == 'true'" Include="$(OutputPath)**.pdb" PackagePath="analyzers/dotnet/cs" />
+		<TfmSpecificPackageFile Condition="'$(PodNetIncludeAnalyzer)' == 'true'" Include="$(OutputPath)*.dll" PackagePath="analyzers/dotnet/cs" />
+		<TfmSpecificPackageFile Condition="'$(PodNetIncludeAnalyzerSymbols)' == 'true'" Include="$(OutputPath)*.pdb" PackagePath="analyzers/dotnet/cs" />
 	</ItemGroup>
 	
 </Project>
