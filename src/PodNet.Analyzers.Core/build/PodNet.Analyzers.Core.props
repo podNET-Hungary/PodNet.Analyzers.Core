@@ -1,0 +1,20 @@
+<Project>
+	
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<IsRoslynComponent>true</IsRoslynComponent>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+
+		<IncludeSymbols>false</IncludeSymbols>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+
+		<PodNetIncludeAnalyzer>true</PodNetIncludeAnalyzer>
+		<PodNetIncludeAnalyzerSymbols>true</PodNetIncludeAnalyzerSymbols>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<TfmSpecificPackageFile Condition="'$(PodNetIncludeAnalyzer)' == 'true'" Include="$(OutputPath)**.dll" PackagePath="analyzers/dotnet/cs" />
+		<TfmSpecificPackageFile Condition="'$(PodNetIncludeAnalyzerSymbols)' == 'true'" Include="$(OutputPath)**.pdb" PackagePath="analyzers/dotnet/cs" />
+	</ItemGroup>
+	
+</Project>
