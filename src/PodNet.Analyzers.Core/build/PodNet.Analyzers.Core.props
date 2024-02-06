@@ -10,11 +10,13 @@
 
 		<PodNetIncludeAnalyzer>true</PodNetIncludeAnalyzer>
 		<PodNetIncludeAnalyzerSymbols>true</PodNetIncludeAnalyzerSymbols>
+		<PodNetIncludeLibPlaceholder>true</PodNetIncludeLibPlaceholder>
 	</PropertyGroup>
 
 	<ItemGroup>
 		<TfmSpecificPackageFile Condition="'$(PodNetIncludeAnalyzer)' == 'true'" Include="$(OutputPath)*.dll" PackagePath="analyzers/dotnet/cs" />
 		<TfmSpecificPackageFile Condition="'$(PodNetIncludeAnalyzerSymbols)' == 'true'" Include="$(OutputPath)*.pdb" PackagePath="analyzers/dotnet/cs" />
+		<TfmSpecificPackageFile Condition="'$(PodNetIncludeLibPlaceholder)' == 'true'" Include="$(MSBuildThisFileDirectory)_._" PackagePath="lib/netstandard2.0" />
 	</ItemGroup>
 	
 </Project>
