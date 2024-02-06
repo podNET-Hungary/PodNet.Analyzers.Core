@@ -31,6 +31,14 @@ public static class AnalyzerConfigOptionsExtensions
     public static string? GetMetadata(this AnalyzerConfigOptions options, string key)
         => options.GetValue($"build_metadata.{key}");
 
+    /// <summary>Gets the value corresponding to <c>$"build_metadata.additionalfiles.{<paramref name="key"/>}"</c> from <paramref name="options"/>, or <see langword="null"/> if not found.</summary>
+    /// <remarks>To be used with <see cref="AnalyzerConfigOptionsProvider.GetOptions(AdditionalText)"/> or  <see cref="AnalyzerConfigOptionsProvider.GetOptions(SyntaxTree)"/>, and not with <see cref="AnalyzerConfigOptionsProvider.GlobalOptions"/>.</remarks>
+    /// <param name="options">The options to look up the provided key in.</param>
+    /// <param name="key">The key to look up.</param>
+    /// <returns>The value corresponding to <paramref name="key"/> if found, <see langword="null"/> otherwise.</returns>
+    public static string? GetAdditionalTextMetadata(this AnalyzerConfigOptions options, string key)
+        => options.GetValue($"build_metadata.additionalfiles.{key}");
+
     /// <summary>Gets the root namespace by using the key <c>build_property.rootnamespace</c> in MSBuild.</summary>
     public static string? GetRootNamespace(this AnalyzerConfigOptions options)
         => options.GetBuildProperty("rootnamespace");
