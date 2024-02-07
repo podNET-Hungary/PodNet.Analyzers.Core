@@ -11,8 +11,9 @@ namespace PodNet.Analyzers.Equality;
 public readonly struct EquatableArray<T>(ImmutableArray<T> array) : IEquatable<EquatableArray<T>>, IEnumerable<T>
 {
     public ImmutableArray<T> Values { get; } = array.IsDefaultOrEmpty ? ImmutableArray<T>.Empty : array;
-    public bool Equals(EquatableArray<T> other) => Values.SequenceEqual(other.Values);
-    public override bool Equals(object obj) => obj is EquatableArray<T> equatableArray && Equals(equatableArray);
+    public bool Equals(EquatableArray<T> other) => (Values.IsDefaultOrEmpty && other.Values.IsDefaultOrEmpty) || Values.SequenceEqual(other.Values);
+    public bool Equals(IEnumerable<T> other) => Values.SequenceEqual(other);
+    public override bool Equals(object obj) => (obj is EquatableArray<T> equatableArray && Equals(equatableArray)) || (obj is IEnumerable<T> enumerable && Equals(enumerable));
     public override int GetHashCode() => Values.Aggregate(0x5bd1e995, (acc, v) => (acc >> 17 | acc << sizeof(int) - 17) ^ (v?.GetHashCode() ?? 0));
     public IEnumerator<T> GetEnumerator() => ((IEnumerable<T>)Values).GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => ((IEnumerable)Values).GetEnumerator();
@@ -20,7 +21,8 @@ public readonly struct EquatableArray<T>(ImmutableArray<T> array) : IEquatable<E
     public static implicit operator ImmutableArray<T>(EquatableArray<T> array) => array.Values;
     public static implicit operator EquatableArray<T>(ImmutableArray<T> array) => new(array);
     public ImmutableArray<T> ToImmutableArray() => Values;
-    public EquatableArray<T> ToEquatableArray() => new(Values);
     public static bool operator ==(EquatableArray<T> left, EquatableArray<T> right) => left.Equals(right);
     public static bool operator !=(EquatableArray<T> left, EquatableArray<T> right) => !(left == right);
+    public static bool operator ==(EquatableArray<T> left, IEnumerable<T> right) => left.Equals(right);
+    public static bool operator !=(EquatableArray<T> left, IEnumerable<T> right) => !(left == right);
 }

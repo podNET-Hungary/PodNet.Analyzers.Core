@@ -31,12 +31,7 @@ public static class PathProcessing
         if (string.Compare(Path.GetPathRoot(relativeTo), Path.GetPathRoot(path), comparisonType) != 0)
             return path;
 
-        var commonLength = 0;
-        while (path.Length > commonLength && relativeTo.Length > commonLength && path[commonLength] == relativeTo[commonLength])
-            commonLength++;
-        while (commonLength >= 0 && IsDirectorySeparator(path[commonLength]))
-            commonLength--;
-
+        var commonLength = GetCommonPathLength(relativeTo, path, ignoreCase);
         if (commonLength == 0)
             return path;
 
@@ -44,7 +39,8 @@ public static class PathProcessing
         var pathEndsInSeparator = IsDirectorySeparator(path[^1]);
         var pathLength = pathEndsInSeparator ? path.Length - 1 : path.Length;
 
-        if (relativeToLength == pathLength && commonLength >= relativeToLength) return ".";
+        if (relativeToLength == pathLength && commonLength >= relativeToLength)
+            return ".";
 
         var sb = new StringBuilder(Math.Max(relativeTo.Length, path.Length));
 
@@ -79,5 +75,22 @@ public static class PathProcessing
         return sb.ToString();
 
         static bool IsDirectorySeparator(char c) => c == Path.DirectorySeparatorChar || c == Path.AltDirectorySeparatorChar;
+
+        static int GetCommonPathLength(string first, string second, bool ignoreCase)
+        {
+            var commonChars = 0;
+            while (first.Length > commonChars && second.Length > commonChars && string.Compare(first, commonChars, second, commonChars, 1, ignoreCase) == 0)
+                commonChars++;
+
+            if (commonChars == 0
+                || (commonChars == first.Length && (commonChars == second.Length || IsDirectorySeparator(second[commonChars])))
+                || (commonChars == second.Length && IsDirectorySeparator(first[commonChars])))
+                return commonChars;
+
+            while (commonChars > 0 && !IsDirectorySeparator(first[commonChars - 1]))
+                commonChars--;
+
+            return commonChars;
+        }
     }
 }

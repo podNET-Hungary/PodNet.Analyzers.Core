@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8B502E59-B8BA-4712-A69F-D68FFDA865CB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodNet.Analyzers.Core", "src\PodNet.Analyzers.Core\PodNet.Analyzers.Core.csproj", "{4E75A15E-CCB8-4478-B913-39B32E0493EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodNet.Analyzers.Core", "src\Analyzers.Core\PodNet.Analyzers.Core.csproj", "{4E75A15E-CCB8-4478-B913-39B32E0493EA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{2A4FB9A2-A0B6-4DA9-BD6A-A59C8579B343}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{2A4FB9A2
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{ED4323AF-33E4-4906-8D03-FF88E060A211}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PodNet.Analyzers.Tests", "tests\Analyzers.Tests\PodNet.Analyzers.Tests.csproj", "{1ED986B3-94E5-4D92-AEDB-49B78882A285}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,12 +30,17 @@ Global
 		{4E75A15E-CCB8-4478-B913-39B32E0493EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E75A15E-CCB8-4478-B913-39B32E0493EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E75A15E-CCB8-4478-B913-39B32E0493EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ED986B3-94E5-4D92-AEDB-49B78882A285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ED986B3-94E5-4D92-AEDB-49B78882A285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ED986B3-94E5-4D92-AEDB-49B78882A285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ED986B3-94E5-4D92-AEDB-49B78882A285}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4E75A15E-CCB8-4478-B913-39B32E0493EA} = {8B502E59-B8BA-4712-A69F-D68FFDA865CB}
+		{1ED986B3-94E5-4D92-AEDB-49B78882A285} = {ED4323AF-33E4-4906-8D03-FF88E060A211}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6697D16D-4A0D-4228-A147-51489925F54E}
