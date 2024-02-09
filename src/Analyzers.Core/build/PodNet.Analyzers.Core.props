@@ -11,6 +11,9 @@
 		<PodNetIncludeAnalyzer>true</PodNetIncludeAnalyzer>
 		<PodNetIncludeAnalyzerCore>true</PodNetIncludeAnalyzerCore>
 		<PodNetIncludeLibPlaceholder>true</PodNetIncludeLibPlaceholder>
+
+		<!-- Analyzers don't get referenced directly by user code. -->
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup Condition="('$(PodNetIncludeAnalyzer)' == 'true')">
