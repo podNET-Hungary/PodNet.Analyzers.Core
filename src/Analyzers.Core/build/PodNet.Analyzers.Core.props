@@ -10,15 +10,35 @@
 
 		<PodNetIncludeAnalyzer>true</PodNetIncludeAnalyzer>
 		<PodNetIncludeAnalyzerCore>true</PodNetIncludeAnalyzerCore>
-		<PodNetIncludeAnalyzerSymbols>true</PodNetIncludeAnalyzerSymbols>
 		<PodNetIncludeLibPlaceholder>true</PodNetIncludeLibPlaceholder>
 	</PropertyGroup>
 
+	<ItemGroup Condition="('$(PodNetIncludeAnalyzer)' == 'true')">
+		<None Include="$(OutputPath)*.dll" 
+			  PackagePath="analyzers/dotnet/cs" 
+			  LinkBase="PodNet.Analyzers.Core/analyzers/dotnet/cs" 
+			  Visible="false" />
+		<None Include="$(MSBuildThisFileDirectory)_install" 
+			  PackagePath="tools/install.ps1" 
+			  Link="PodNet.Analyzers.Core/tools/install.ps1" 
+			  Visible="false" />
+		<None Include="$(MSBuildThisFileDirectory)_uninstall" 
+			  PackagePath="tools/uninstall.ps1" 
+			  Link="PodNet.Analyzers.Core/tools/uninstall.ps1" 
+			  Visible="false" />
+	</ItemGroup>
+
 	<ItemGroup>
-		<TfmSpecificPackageFile Condition="'$(PodNetIncludeAnalyzer)' == 'true'" Include="$(OutputPath)*.dll" PackagePath="analyzers/dotnet/cs" />
-		<TfmSpecificPackageFile Condition="'$(PodNetIncludeAnalyzerCore)' == 'true'" Include="$(MSBuildThisFileDirectory)../lib/netstandard2.0/*.dll" PackagePath="analyzers/dotnet/cs" />
-		<TfmSpecificPackageFile Condition="'$(PodNetIncludeAnalyzerSymbols)' == 'true'" Include="$(OutputPath)*.pdb" PackagePath="analyzers/dotnet/cs" />
-		<TfmSpecificPackageFile Condition="'$(PodNetIncludeLibPlaceholder)' == 'true'" Include="$(MSBuildThisFileDirectory)_._" PackagePath="lib/netstandard2.0" />
+		<None Condition="'$(PodNetIncludeAnalyzerCore)' == 'true'" 
+			  Include="$(MSBuildThisFileDirectory)../lib/netstandard2.0/*.dll" 
+			  PackagePath="analyzers/dotnet/cs" 
+			  LinkBase="PodNet.Analyzers.Core/analyzers/dotnet/cs" 
+			  Visible="false" />
+		<None Condition="('$(PodNetIncludeLibPlaceholder)' == 'true') And ('$(IncludeSymbols)' == 'false') And ('$(IncludeBuildOutput)' == 'false')" 
+			  Include="$(MSBuildThisFileDirectory)placeholder" 
+			  PackagePath="lib/netstandard2.0/_._" 
+			  Link="PodNet.Analyzers.Core/lib/netstandard2.0/_._" 
+			  Visible="false" />
 	</ItemGroup>
 	
 </Project>

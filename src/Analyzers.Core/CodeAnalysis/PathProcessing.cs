@@ -3,6 +3,7 @@ using System.Text;
 
 namespace PodNet.Analyzers.CodeAnalysis;
 
+/// <summary>Contains helpers to process file system paths.</summary>
 public static class PathProcessing
 {
     /// <summary>

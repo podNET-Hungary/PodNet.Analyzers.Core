@@ -1,5 +1,6 @@
 ﻿namespace PodNet.Analyzers.CodeAnalysis;
 
+/// <summary>Contains helpers to process text values common in analyzer authoring.</summary>
 public static class TextProcessing
 {
     /// <summary>Trims the <c>Attribute</c> suffix from the name of <see cref="Attribute"/> types.</summary>

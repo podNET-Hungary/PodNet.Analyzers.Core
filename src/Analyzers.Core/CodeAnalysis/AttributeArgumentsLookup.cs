@@ -7,6 +7,9 @@ namespace PodNet.Analyzers.CodeAnalysis;
 /// <param name="Values">The named arguments provided to the attribute.</param>
 public record AttributeArgumentsLookup(ImmutableDictionary<string, TypedConstant> Values)
 {
+    /// <summary>Factory to create <see cref="AttributeArgumentsLookup"/> from an <see cref="AttributeData"/> instance.</summary>
+    /// <param name="attributeData">The attribute data to convert into a lookup for named arguments.</param>
+    /// <returns>The initialized lookup instance.</returns>
     public static AttributeArgumentsLookup FromAttributeData(AttributeData attributeData)
     {
         if (attributeData.NamedArguments.Length is 0)
@@ -17,6 +20,7 @@ public record AttributeArgumentsLookup(ImmutableDictionary<string, TypedConstant
         return new(result.ToImmutableDictionary());
     }
 
+    /// <summary>An empty lookup.</summary>
     public static AttributeArgumentsLookup Empty { get; } = new(ImmutableDictionary<string, TypedConstant>.Empty);
 
     /// <summary>Gets the named argument for the given <paramref name="key"/>, or an empty <see cref="TypedConstant"/> if it's not present.</summary>
@@ -27,7 +31,7 @@ public record AttributeArgumentsLookup(ImmutableDictionary<string, TypedConstant
     /// <summary>Gets the named argument named <paramref name="key"/> for the attribute typed as <typeparamref name="T"/>, or <see langword="default"/> if it's not found or was <see langword="null"/>. Throws if the value kind is <see cref="TypedConstantKind.Error"/> or <see cref="TypedConstantKind.Array"/>, or the value can not be cast to <typeparamref name="T"/>. In the latter case, you have to use <see cref="GetArray"/>.</summary>
     /// <typeparam name="T">If the value is <see cref="TypedConstantKind.Primitive" /> or <see cref="TypedConstantKind.Enum" /> or <see cref="TypedConstantKind.Type"/> and <paramref name="key"/> is found among the named arguments for the attribute, the value will be cast to this type.</typeparam>
     /// <param name="key">The argument name to find in the attribute's <see cref="AttributeData.NamedArguments"/>.</param>
-    /// <returns>The value cast to the target type, if found. <paramref name="defaultValue"/> otherwise.</returns>
+    /// <returns>The value cast to the target type, if found.</returns>
     /// <exception cref="InvalidOperationException">Thrown when the value has <see cref="TypedConstantKind.Error"/>.</exception>
     /// <exception cref="InvalidCastException">Thrown when the value cannot be converted to the target type <typeparamref name="T"/>.</exception>
     /// <exception cref="ArgumentException">Thrown when the value represents an <see cref="TypedConstantKind.Array"/> or a <see cref="TypedConstantKind.Type"/>. Use <see cref="GetArray"/> and <see cref="GetType"/> instead.</exception>

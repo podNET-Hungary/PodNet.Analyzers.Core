@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 
 namespace PodNet.Analyzers.CodeAnalysis;
 
+/// <summary>Extensions to retrieve values from <see cref="AnalyzerConfigOptions"/>.</summary>
 public static class AnalyzerConfigOptionsExtensions
 {
     /// <summary>Gets the value corresponding to <paramref name="key"/> from <paramref name="options"/>, or <see langword="null"/> if not found.</summary>
@@ -37,7 +38,7 @@ public static class AnalyzerConfigOptionsExtensions
     /// <param name="key">The key to look up.</param>
     /// <returns>The value corresponding to <paramref name="key"/> if found, <see langword="null"/> otherwise.</returns>
     public static string? GetAdditionalTextMetadata(this AnalyzerConfigOptions options, string key)
-        => options.GetValue($"build_metadata.additionalfiles.{key}");
+        => options.GetMetadata($"additionalfiles.{key}");
 
     /// <summary>Gets the root namespace by using the key <c>build_property.rootnamespace</c> in MSBuild.</summary>
     public static string? GetRootNamespace(this AnalyzerConfigOptions options)

@@ -8,6 +8,12 @@ namespace PodNet.Analyzers;
 public sealed class DiagnosticContainer
 {
     private readonly List<Diagnostic> _diagnostics = [];
+
+    /// <summary>Adds a <see cref="Diagnostic"/> instance to the current container.</summary>
+    /// <param name="diagnostic">The instance to add to the container.</param>
     public void Add(Diagnostic diagnostic) => _diagnostics.Add(diagnostic);
+
+    /// <summary>Converts the <see cref="Diagnostic"/> instances in the container to an <see cref="EquatableArray{T}"/>.</summary>
+    /// <returns>The array. The container can be appended to, while the returned array is immutable.</returns>
     public EquatableArray<Diagnostic> ToEquatableArray() => _diagnostics.ToImmutableArray();
 }
