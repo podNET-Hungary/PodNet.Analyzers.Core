@@ -6,6 +6,8 @@
 		<Description>Shared sources, configuration and resources for PodNet Roslyn analyzers, including source generators. This package is mainly to be used indirectly by other PodNet analyzer packages. Source is avaialable for reference.</Description>
 		<PackageTags>PodNet, analyzers, Roslyn, code generators, code analysis, C#, awesome</PackageTags>
 		<DevelopmentDependency>true</DevelopmentDependency>
+		<!-- We intentionally include placeholders in this package that will end up in the consumers' NuGet package. NuGet warns that the _._ denotes an empty folder and the un/install.ps1 files are in the wrong directory. -->
+	    <NoWarn>$(NoWarn);NU5109;NU5110</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -19,5 +21,5 @@
 		
 		<TfmSpecificPackageFile Include="$(OutputPath)*.pdb" PackagePath="lib/netstandard2.0" />
 	</ItemGroup>
-	
+
 </Project>
