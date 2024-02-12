@@ -18,14 +18,17 @@
 
 	<ItemGroup Condition="('$(PodNetIncludeAnalyzer)' == 'true')">
 		<None Include="$(OutputPath)*.dll" 
+			  Pack="true"
 			  PackagePath="analyzers/dotnet/cs" 
 			  LinkBase="PodNet.Analyzers.Core/analyzers/dotnet/cs" 
 			  Visible="false" />
-		<None Include="$(MSBuildThisFileDirectory)_install" 
+		<None Include="$(MSBuildThisFileDirectory)_install.ps1.placeholder" 
+			  Pack="true"
 			  PackagePath="tools/install.ps1" 
 			  Link="PodNet.Analyzers.Core/tools/install.ps1" 
 			  Visible="false" />
-		<None Include="$(MSBuildThisFileDirectory)_uninstall" 
+		<None Include="$(MSBuildThisFileDirectory)_uninstall.ps1.placeholder" 
+			  Pack="true"
 			  PackagePath="tools/uninstall.ps1" 
 			  Link="PodNet.Analyzers.Core/tools/uninstall.ps1" 
 			  Visible="false" />
@@ -34,11 +37,13 @@
 	<ItemGroup>
 		<None Condition="'$(PodNetIncludeAnalyzerCore)' == 'true'" 
 			  Include="$(MSBuildThisFileDirectory)../lib/netstandard2.0/*.dll" 
+			  Pack="true"
 			  PackagePath="analyzers/dotnet/cs" 
 			  LinkBase="PodNet.Analyzers.Core/analyzers/dotnet/cs" 
 			  Visible="false" />
 		<None Condition="('$(PodNetIncludeLibPlaceholder)' == 'true') And ('$(IncludeSymbols)' == 'false') And ('$(IncludeBuildOutput)' == 'false')" 
-			  Include="$(MSBuildThisFileDirectory)placeholder" 
+			  Include="$(MSBuildThisFileDirectory)_.placeholder" 
+			  Pack="true"
 			  PackagePath="lib/netstandard2.0/_._" 
 			  Link="PodNet.Analyzers.Core/lib/netstandard2.0/_._" 
 			  Visible="false" />
