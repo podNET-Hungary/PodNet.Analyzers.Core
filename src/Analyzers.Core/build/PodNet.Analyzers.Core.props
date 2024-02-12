@@ -1,5 +1,5 @@
 <Project>
-	
+
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<IsRoslynComponent>true</IsRoslynComponent>
@@ -17,38 +17,35 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition="('$(PodNetIncludeAnalyzer)' == 'true')">
-		<None Include="$(OutputPath)*.dll" 
+		<TfmSpecificPackageFile Include="$(OutputPath)*.dll"
+								PackagePath="analyzers/dotnet/cs" />
+
+		<None Include="$(MSBuildThisFileDirectory)install.ps1"
 			  Pack="true"
-			  PackagePath="analyzers/dotnet/cs" 
-			  LinkBase="PodNet.Analyzers.Core/analyzers/dotnet/cs" 
+			  PackagePath="tools"
+			  Link="PodNet.Analyzers.Core/tools/install.ps1"
 			  Visible="false" />
-		
-		<None Include="$(MSBuildThisFileDirectory)install.ps1" 
+
+		<None Include="$(MSBuildThisFileDirectory)uninstall.ps1"
 			  Pack="true"
-			  PackagePath="tools" 
-			  Link="PodNet.Analyzers.Core/tools/install.ps1" 
-			  Visible="false" />
-		
-		<None Include="$(MSBuildThisFileDirectory)uninstall.ps1" 
-			  Pack="true"
-			  PackagePath="tools" 
-			  Link="PodNet.Analyzers.Core/tools/uninstall.ps1" 
+			  PackagePath="tools"
+			  Link="PodNet.Analyzers.Core/tools/uninstall.ps1"
 			  Visible="false" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<None Condition="'$(PodNetIncludeAnalyzerCore)' == 'true'" 
-			  Include="$(MSBuildThisFileDirectory)../lib/netstandard2.0/*.dll" 
+		<None Condition="'$(PodNetIncludeAnalyzerCore)' == 'true'"
+			  Include="$(MSBuildThisFileDirectory)../lib/netstandard2.0/*.dll"
 			  Pack="true"
-			  PackagePath="analyzers/dotnet/cs" 
-			  LinkBase="PodNet.Analyzers.Core/analyzers/dotnet/cs" 
+			  PackagePath="analyzers/dotnet/cs"
+			  LinkBase="PodNet.Analyzers.Core/analyzers/dotnet/cs"
 			  Visible="false" />
-		<None Condition="('$(PodNetIncludeLibPlaceholder)' == 'true') And ('$(IncludeSymbols)' == 'false') And ('$(IncludeBuildOutput)' == 'false')" 
-			  Include="$(MSBuildThisFileDirectory)_._" 
+		<None Condition="('$(PodNetIncludeLibPlaceholder)' == 'true') And ('$(IncludeSymbols)' == 'false') And ('$(IncludeBuildOutput)' == 'false')"
+			  Include="$(MSBuildThisFileDirectory)_._"
 			  Pack="true"
-			  PackagePath="lib/netstandard2.0" 
-			  Link="PodNet.Analyzers.Core/lib/netstandard2.0/_._" 
+			  PackagePath="lib/netstandard2.0"
+			  Link="PodNet.Analyzers.Core/lib/netstandard2.0/_._"
 			  Visible="false" />
 	</ItemGroup>
-	
+
 </Project>
