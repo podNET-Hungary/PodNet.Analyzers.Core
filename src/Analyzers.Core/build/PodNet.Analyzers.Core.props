@@ -12,6 +12,9 @@
 		<PodNetIncludeAnalyzerCore>true</PodNetIncludeAnalyzerCore>
 		<PodNetIncludeLibPlaceholder>true</PodNetIncludeLibPlaceholder>
 
+		<!-- Only means the resulting package will be set to PrivateAssets="all", IncludeAssets="runtime; build; native; contentfiles; analyzers" when installed via VS or CLI. Consumer can opt out by editing the .csproj file, and the analyzer can opt out by setting this value to false. Info: https://github.com/NuGet/Home/wiki/DevelopmentDependency-support-for-PackageReference -->
+		<DevelopmentDependency>true</DevelopmentDependency>
+
 		<!-- Analyzers don't get referenced directly by user code. -->
 		<GenerateDocumentationFile>false</GenerateDocumentationFile>
 	</PropertyGroup>
