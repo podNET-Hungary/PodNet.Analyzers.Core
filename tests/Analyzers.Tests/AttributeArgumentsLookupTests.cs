@@ -6,6 +6,25 @@ using System.Runtime.Loader;
 
 namespace PodNet.Analyzers.Tests;
 
+[Test(
+    IntValue = 1,
+    EnumValue = DateTimeKind.Local,
+    StringValue = "String",
+    TypeValue = typeof(TestAttribute),
+    StringArrayValue = ["String1", "String2"],
+    ObjectArrayValue = ["String1", 2])]
+public sealed class TestAttribute : Attribute
+{
+    public int IntValue { get; set; }
+    public DateTimeKind EnumValue { get; set; }
+    public DateTimeKind? UnsetEnumValue { get; set; }
+    public required string? StringValue { get; init; }
+    public string? UnsetStringValue { get; init; }
+    public Type? TypeValue { get; set; }
+    public string[]? StringArrayValue { get; set; }
+    public object[]? ObjectArrayValue { get; set; }
+}
+
 [TestClass]
 public class AttributeArgumentsLookupTests
 {
@@ -26,6 +45,7 @@ public class AttributeArgumentsLookupTests
         var attributeTree = CSharpSyntaxTree.ParseText("""
             [Test(
                 IntValue = 1,
+                EnumValue = DateTimeKind.Local,
                 StringValue = "String",
                 TypeValue = typeof(TestAttribute),
                 StringArrayValue = ["String1", "String2"],
@@ -33,6 +53,8 @@ public class AttributeArgumentsLookupTests
             public sealed class TestAttribute : Attribute
             {
                 public int IntValue { get; set; }
+                public DateTimeKind EnumValue { get; set; }
+                public DateTimeKind UnsetEnumValue { get; set; }
                 public required string? StringValue { get; init; }
                 public string? UnsetStringValue { get; init; }
                 public Type? TypeValue { get; set; }
@@ -45,7 +67,11 @@ public class AttributeArgumentsLookupTests
             syntaxTrees: [globalUsings, attributeTree],
             references: AssemblyLoadContext.Default.Assemblies
                             .Where(a => !a.IsDynamic && !string.IsNullOrWhiteSpace(a.Location))
-                            .Select(a => MetadataReference.CreateFromFile(a.Location)));
+                            .Select(a => MetadataReference.CreateFromFile(a.Location)), 
+            options: new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+
+        System.Collections.Immutable.ImmutableArray<Diagnostic> diagnostics = compilation.GetDiagnostics();
+        Assert.AreEqual(0, diagnostics.Count(d => d.Severity is DiagnosticSeverity.Error));
 
         var model = compilation.GetSemanticModel(attributeTree);
         var classDeclarationSymbol = model.GetDeclaredSymbol(attributeTree.GetRoot()
@@ -56,9 +82,12 @@ public class AttributeArgumentsLookupTests
 
         Assert.AreEqual(1, lookup.GetValue<int?>("IntValue"));
         Assert.AreEqual("String", lookup.GetValue<string?>("StringValue"));
-        Assert.AreEqual(null, lookup.GetValue<string?>("UnsetStringValue"));
+        Assert.IsNull(lookup.GetValue<string?>("UnsetStringValue"));
+        Assert.AreEqual(DateTimeKind.Local, lookup.GetValue<DateTimeKind>("EnumValue"));
+        Assert.AreEqual(DateTimeKind.Unspecified, lookup.GetValue<DateTimeKind>("UnsetEnumValue"));
+        Assert.IsNull(lookup.GetValue<DateTimeKind?>("UnsetEnumValue"));
         Assert.AreEqual("TestAttribute", lookup.GetType("TypeValue")!.ToString());
-        Assert.IsTrue(lookup.GetArray<string>("StringArrayValue")!.Value.SequenceEqual(["String1", "String2"]));
-        Assert.IsTrue(lookup.GetArray<object>("ObjectArrayValue")!.Value.SequenceEqual(["String1", 2]));
+        CollectionAssert.AreEquivalent(lookup.GetArray<string>("StringArrayValue")!.Value, new List<string>() { "String1", "String2" });
+        CollectionAssert.AreEquivalent(lookup.GetArray<object>("ObjectArrayValue")!.Value, new List<object>() { "String1", 2 });
     }
 }

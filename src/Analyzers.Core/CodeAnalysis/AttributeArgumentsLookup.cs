@@ -28,7 +28,7 @@ public record AttributeArgumentsLookup(ImmutableDictionary<string, TypedConstant
     /// <returns>The typed constant value for the given key, or a default <see cref="TypedConstant"/> with its kind being <see cref="TypedConstantKind.Error"/>.</returns>
     public TypedConstant this[string key] => Values.TryGetValue(key, out var value) ? value : default;
 
-    /// <summary>Gets the named argument named <paramref name="key"/> for the attribute typed as <typeparamref name="T"/>, or <see langword="default"/> if it's not found or was <see langword="null"/>. Throws if the value kind is <see cref="TypedConstantKind.Error"/> or <see cref="TypedConstantKind.Array"/>, or the value can not be cast to <typeparamref name="T"/>. In the latter case, you have to use <see cref="GetArray"/>.</summary>
+    /// <summary>Gets the named argument named <paramref name="key"/> for the attribute typed as <typeparamref name="T"/>, or <see langword="default"/> if it's not found or was <see langword="null"/>. Throws if the value kind is <see cref="TypedConstantKind.Error"/> or <see cref="TypedConstantKind.Array"/>, or the value can not be cast to <typeparamref name="T"/>. In the case of arrays, you have to use <see cref="GetArray"/>.</summary>
     /// <typeparam name="T">If the value is <see cref="TypedConstantKind.Primitive" /> or <see cref="TypedConstantKind.Enum" /> or <see cref="TypedConstantKind.Type"/> and <paramref name="key"/> is found among the named arguments for the attribute, the value will be cast to this type.</typeparam>
     /// <param name="key">The argument name to find in the attribute's <see cref="AttributeData.NamedArguments"/>.</param>
     /// <returns>The value cast to the target type, if found.</returns>
@@ -41,7 +41,8 @@ public record AttributeArgumentsLookup(ImmutableDictionary<string, TypedConstant
         return Values.TryGetValue(key, out var value) && !value.IsNull
             ? value.Kind switch
             {
-                TypedConstantKind.Primitive or TypedConstantKind.Enum => (T?)value.Value,
+                TypedConstantKind.Primitive => (T?)value.Value,
+                TypedConstantKind.Enum => (T)Enum.ToObject(Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T), value.Value),
                 TypedConstantKind.Error => throw new InvalidOperationException($"The given key '{key}' was bound from the attribute, but does not represent a valid value."),
                 TypedConstantKind.Array or TypedConstantKind.Type => throw new ArgumentException($"The given key represents a(n) {value.Kind} kind. Use '{nameof(GetArray)}' or '{nameof(GetType)}' instead.", key),
                 _ => throw new ArgumentOutOfRangeException($"Unknown {nameof(TypedConstantKind)}: {value.Kind}")
