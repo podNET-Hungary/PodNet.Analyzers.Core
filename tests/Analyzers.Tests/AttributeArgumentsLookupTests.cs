@@ -6,25 +6,6 @@ using System.Runtime.Loader;
 
 namespace PodNet.Analyzers.Tests;
 
-[Test(
-    IntValue = 1,
-    EnumValue = DateTimeKind.Local,
-    StringValue = "String",
-    TypeValue = typeof(TestAttribute),
-    StringArrayValue = ["String1", "String2"],
-    ObjectArrayValue = ["String1", 2])]
-public sealed class TestAttribute : Attribute
-{
-    public int IntValue { get; set; }
-    public DateTimeKind EnumValue { get; set; }
-    public DateTimeKind? UnsetEnumValue { get; set; }
-    public required string? StringValue { get; init; }
-    public string? UnsetStringValue { get; init; }
-    public Type? TypeValue { get; set; }
-    public string[]? StringArrayValue { get; set; }
-    public object[]? ObjectArrayValue { get; set; }
-}
-
 [TestClass]
 public class AttributeArgumentsLookupTests
 {
@@ -86,6 +67,7 @@ public class AttributeArgumentsLookupTests
         Assert.AreEqual(DateTimeKind.Local, lookup.GetValue<DateTimeKind>("EnumValue"));
         Assert.AreEqual(DateTimeKind.Unspecified, lookup.GetValue<DateTimeKind>("UnsetEnumValue"));
         Assert.IsNull(lookup.GetValue<DateTimeKind?>("UnsetEnumValue"));
+        Assert.AreEqual(DateTimeKind.Local, lookup.GetValue<DateTimeKind?>("EnumValue"));
         Assert.AreEqual("TestAttribute", lookup.GetType("TypeValue")!.ToString());
         CollectionAssert.AreEquivalent(lookup.GetArray<string>("StringArrayValue")!.Value, new List<string>() { "String1", "String2" });
         CollectionAssert.AreEquivalent(lookup.GetArray<object>("ObjectArrayValue")!.Value, new List<object>() { "String1", 2 });
