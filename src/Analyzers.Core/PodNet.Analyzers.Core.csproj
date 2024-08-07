@@ -14,8 +14,8 @@
 		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.10.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.10.0" />
-		<PackageReference Include="PodNet.Compat" Version="1.0.4" />
-		<PackageReference Include="PodNet.NuGet.Core" Version="1.0.4" PrivateAssets="all" />
+		<PackageReference Include="PodNet.Compat" Version="1.0.5" />
+		<PackageReference Include="PodNet.NuGet.Core" Version="1.0.5" PrivateAssets="all" />
 
 		<Content Include="build/*" PackagePath="build" />
 		
