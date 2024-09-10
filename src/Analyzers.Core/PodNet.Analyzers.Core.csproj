@@ -16,7 +16,7 @@
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
 		<PackageReference Include="PolySharp" Version="1.14.1" />
 
-		<PackageReference Include="PodNet.NuGet.Core" Version="1.1.0" PrivateAssets="all" />
+		<PackageReference Include="PodNet.NuGet.Core" Version="1.2.0" PrivateAssets="all" />
 
 		<Content Include="build/*" PackagePath="build" />
 	</ItemGroup>
