@@ -1,5 +1,4 @@
 <Project>
-
 	<PropertyGroup>
 		<IsRoslynComponent>true</IsRoslynComponent>
 		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
@@ -7,17 +6,25 @@
 		<PodNetIncludeAnalyzer>true</PodNetIncludeAnalyzer>
 		<PodNetIncludeAnalyzerCore>true</PodNetIncludeAnalyzerCore>
 		<PodNetIncludeLibPlaceholder>true</PodNetIncludeLibPlaceholder>
-
 		<PodNetIncludeLegacyPs1Scripts>true</PodNetIncludeLegacyPs1Scripts>
 		
-		<!-- When packing using PodNet.NuGet.Core, don't automatically include build output or symbols. -->
-		<PodNetStandardNuGetLibLayout>false</PodNetStandardNuGetLibLayout>
-
-		<!-- Only means the resulting package will be set to PrivateAssets="all", IncludeAssets="runtime; build; native; contentfiles; analyzers" when installed via VS or CLI. Consumer can opt out by editing the .csproj file, and the analyzer can opt out by setting this value to false. Info: https://github.com/NuGet/Home/wiki/DevelopmentDependency-support-for-PackageReference -->
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<IncludeSymbols>false</IncludeSymbols>
+		<IncludeSource>false</IncludeSource>
+		<EmbedAllSources>false</EmbedAllSources>
+		<GenerateDocumentationFile>false</GenerateDocumentationFile>
+		
+		<!-- Only means the resulting package will be set to PrivateAssets="all", IncludeAssets="runtime; build; 
+			 native; contentfiles; analyzers" when installed via VS or CLI. PrivateAssets is intended for analyzer
+			 packages as they are only used at design-time. If there are runtime dependencies as well, or the 
+			 analyzer is intended to be used transitively (not just from the consuming project, but consumers of the
+			 consuming project as well), the consumer should opt-out. Consumers of the analyzer can opt out by 
+			 editing the .csproj file, and the analyzer can opt out by setting this value to false. 
+			 More info: https://github.com/NuGet/Home/wiki/DevelopmentDependency-support-for-PackageReference -->
 		<DevelopmentDependency>true</DevelopmentDependency>
-
 	</PropertyGroup>
 
+	
 	<ItemGroup Condition="'$(PodNetIncludeAnalyzer)' == 'true'">
 		<TfmSpecificPackageFile Include="$(OutputPath)*.dll"
 								PackagePath="analyzers/dotnet/cs" />
